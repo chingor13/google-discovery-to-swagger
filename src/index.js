@@ -249,9 +249,6 @@ function processMethod(method, options) {
   if (options.supportsMediaUpload)
     path = options.basePath + path;
 
-  // fix broken "complex" paths
-  path = path.replaceAll("{+", "{");
-
   var srResponse = {
     description: 'Successful response',
   };
