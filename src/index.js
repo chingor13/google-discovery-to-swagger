@@ -157,6 +157,9 @@ function processDefinitions(schemas) {
       return;
 
     _.each(schema.properties, function (property) {
+      if (!('type' in property)) {
+        property.type = 'string';
+      }
       if ('default' in property) {
         property.default = processDefault(property);
       }
