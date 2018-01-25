@@ -202,6 +202,10 @@ function processMethodList(data, options) {
   if (!('methods' in data))
     return {};
 
+  if (_.includes(data.features || [], 'dataWrapper')) {
+    options.dataWrapper = true;
+  }
+
   var srPaths = {};
   for (var key in data.methods) {
     var method = data.methods[key];
@@ -286,6 +290,10 @@ function processMethod(method, options) {
         Oauth2: [scope]
       };
     });
+  }
+
+  if (options.dataWrapper) {
+    srMethod['x-dataWrapper'] = true;
   }
 
   if (!(path in paths))
