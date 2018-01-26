@@ -171,6 +171,11 @@ function processDefinitions(schemas) {
 
 function processResource(data, srGlobalRefParameters, options) {
   var srTags = [];
+
+  // Add x-dataWrapper vendor extension to operations
+  if (_.includes(data.features || [], 'dataWrapper'))
+    options.dataWrapper = true;
+
   var srPaths = processMethodList(data, options);
 
   if ('resources' in data) {
@@ -201,10 +206,6 @@ function processResource(data, srGlobalRefParameters, options) {
 function processMethodList(data, options) {
   if (!('methods' in data))
     return {};
-
-  if (_.includes(data.features || [], 'dataWrapper')) {
-    options.dataWrapper = true;
-  }
 
   var srPaths = {};
   for (var key in data.methods) {
