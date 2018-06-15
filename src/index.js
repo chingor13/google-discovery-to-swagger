@@ -160,6 +160,11 @@ function processDefinitions(schemas) {
       if (!('type' in property)) {
         property.type = 'string';
       }
+
+      if ('format' in property) {
+        property.format = processFormat(property.format);
+      }
+
       if ('default' in property) {
         property.default = processDefault(property);
       }
@@ -465,12 +470,20 @@ function processType(type) {
   };
 
   //TODO: convert format.
-  //if ('format' in type) {
+  if ('format' in type) {
+    srType.format = processFormat(type.format)
+  }
 
   //TODO: use strings from type.enumDescriptions
   return srType;
 }
 
+function processFormat(type) {
+  if (type == 'google-datetime') {
+    return 'date-time';
+  }
+  return type;
+}
 
 function processDefault(param) {
   if (!('default' in param))
