@@ -161,6 +161,22 @@ function processDefinitions(schemas) {
         property.type = 'string';
       }
 
+      if ('additionalProperties' in property) {
+        if ('type' in property.additionalProperties) {
+          if (property.additionalProperties.type == 'any') {
+            property.additionalProperties.type = 'string';
+          }
+        } else if (!('$ref' in property.additionalProperties)) {
+          property.additionalProperties.type = 'string';
+        }
+      }
+
+      if ('items' in property) {
+        if (!('type' in property.items)) {
+          property.items.type = 'string';
+        }
+      }
+
       if ('format' in property) {
         property.format = processFormat(property.format);
       }
