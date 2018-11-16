@@ -436,19 +436,23 @@ function processParameterList(method) {
   var parameters = method.parameters || [];
   var paramOrder = method.parameterOrder || [];
 
-  //First push parameters based on 'paramOreder' field
+  //First push parameters based on 'paramOrder' field
   var srParameters = _.map(paramOrder, function (name) {
     assert.ok(parameters[name], 'Undefined param used inside \'parameterOrder\': ' + name);
     return processParameter(name, parameters[name]);
   });
 
   //When process all parameters that doesn't have order
+  var extraParameters = [];
   _(parameters).omit(paramOrder).each(function (param, name) {
     var srParam = processParameter(name, param);
-    srParameters.push(srParam);
+    extraParameters.push(srParam);
+  });
+  extraParameters.sort(function(a, b) {
+    return a.name.localeCompare(b.name);
   });
 
-  return srParameters;
+  return srParameters.concat(extraParameters);
 }
 
 function processParameter(name, param) {
