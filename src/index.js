@@ -101,6 +101,9 @@ function processGlobalParameters(parameters, srGlobalRefParameters) {
     srGlobalParameters[name] = processParameter(name, param);
     srGlobalRefParameters.push({$ref: '#/parameters/' + name});
   });
+  srGlobalRefParameters.sort(function(a, b) {
+    return a['$ref'].localeCompare(b['$ref']);
+  });
   return srGlobalParameters;
 }
 
